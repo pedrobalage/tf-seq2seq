@@ -41,7 +41,7 @@ def load_config(FLAGS):
     
     config = util.unicode_to_utf8(
         json.load(open('%s.json' % FLAGS.model_path, 'rb')))
-    for key, value in FLAGS.__flags.items():
+    for key, value in list(FLAGS.__flags.items()):
         config[key] = value
 
     return config
@@ -51,7 +51,7 @@ def load_model(session, config):
     
     model = Seq2SeqModel(config, 'decode')
     if tf.train.checkpoint_exists(FLAGS.model_path):
-        print 'Reloading model parameters..'
+        print('Reloading model parameters..')
         model.restore(session, FLAGS.model_path)
     else:
         raise ValueError(
@@ -80,7 +80,7 @@ def decode():
         # Reload existing checkpoint
         model = load_model(sess, config)
         try:
-            print 'Decoding {}..'.format(FLAGS.decode_input)
+            print('Decoding {}..'.format(FLAGS.decode_input))
             if FLAGS.write_n_best:
                 fout = [data_utils.fopen(("%s_%d" % (FLAGS.decode_output, k)), 'w') \
                         for k in range(FLAGS.beam_width)]
@@ -100,9 +100,9 @@ def decode():
                         f.write(str(data_utils.seq2words(seq[:,k], target_inverse_dict)) + '\n')
                     if not FLAGS.write_n_best:
                         break
-                print '  {}th line decoded'.format(idx * FLAGS.decode_batch_size)
+                print('  {}th line decoded'.format(idx * FLAGS.decode_batch_size))
                 
-            print 'Decoding terminated'
+            print('Decoding terminated')
         except IOError:
             pass
         finally:

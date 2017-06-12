@@ -1,7 +1,7 @@
 import numpy as np
 
 import gzip
-from util import load_dict
+from .util import load_dict
 
 # Extra vocabulary symbols
 _GO = '_GO'
@@ -24,7 +24,7 @@ def fopen(filename, mode='r'):
 def load_inverse_dict(dict_path):
     orig_dict = load_dict(dict_path)
     idict = {}
-    for words, idx in orig_dict.iteritems():
+    for words, idx in orig_dict.items():
         idict[idx] = words
     return idict
 

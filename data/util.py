@@ -9,11 +9,11 @@ nematus project (https://github.com/rsennrich/nematus)
 
 import sys
 import json
-import cPickle as pkl
+import pickle as pkl
 
 #json loads strings as unicode; we currently still work with Python 2 strings, and need conversion
 def unicode_to_utf8(d):
-    return dict((key.encode("UTF-8"), value) for (key,value) in d.items())
+    return dict((key.encode("UTF-8"), value) for (key,value) in list(d.items()))
 
 def load_dict(filename):
     try:

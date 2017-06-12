@@ -409,7 +409,7 @@ class Seq2SeqModel(object):
 
         # Update the model
         self.updates = self.opt.apply_gradients(
-            zip(gradients, trainable_params), global_step=self.global_step)
+            list(zip(gradients, trainable_params)), global_step=self.global_step)
 
 
     def save(self, sess, path, var_list=None, global_step=None):
@@ -419,14 +419,14 @@ class Seq2SeqModel(object):
         # temporary code
         #del tf.get_collection_ref('LAYER_NAME_UIDS')[0]
         save_path = saver.save(sess, save_path=path, global_step=global_step)
-        print('model saved at %s' % save_path)
+        print(('model saved at %s' % save_path))
         
 
     def restore(self, sess, path, var_list=None):
         # var_list = None returns the list of all saveable variables
         saver = tf.train.Saver(var_list)
         saver.restore(sess, save_path=path)
-        print('model restored from %s' % path)
+        print(('model restored from %s' % path))
 
 
     def train(self, sess, encoder_inputs, encoder_inputs_length, 

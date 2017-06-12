@@ -1,9 +1,9 @@
 
 import numpy as np
-import shuffle
-from util import load_dict
+from . import shuffle
+from .util import load_dict
 
-import data_utils
+from . import data_utils
 
 '''
 Much of this code is based on the data_iterator.py of
@@ -35,7 +35,7 @@ class TextIterator:
         self.n_words_source = n_words_source
         
         if self.n_words_source > 0:
-            for key, idx in self.source_dict.items():
+            for key, idx in list(self.source_dict.items()):
                 if idx >= self.n_words_source:
                     del self.source_dict[key]
 
@@ -62,7 +62,7 @@ class TextIterator:
         else:
             self.source.seek(0)
 
-    def next(self):
+    def __next__(self):
         if self.end_of_data:
             self.end_of_data = False
             self.reset()
@@ -72,7 +72,7 @@ class TextIterator:
 
         # fill buffer, if it's empty
         if len(self.source_buffer) == 0:
-            for k_ in xrange(self.k):
+            for k_ in range(self.k):
                 ss = self.source.readline()
                 if ss == "":
                     break
@@ -118,7 +118,7 @@ class TextIterator:
     
         # all sentence pairs in maxibatch filtered out because of length
         if len(source) == 0:
-            source = self.next()
+            source = next(self)
     
         return source
 
@@ -153,12 +153,12 @@ class BiTextIterator:
         self.n_words_target = n_words_target
 
         if self.n_words_source > 0:
-            for key, idx in self.source_dict.items():
+            for key, idx in list(self.source_dict.items()):
                 if idx >= self.n_words_source:
                     del self.source_dict[key]
 
         if self.n_words_target > 0:
-            for key, idx in self.target_dict.items():
+            for key, idx in list(self.target_dict.items()):
                 if idx >= self.n_words_target:
                     del self.target_dict[key]
 
@@ -184,7 +184,7 @@ class BiTextIterator:
             self.source.seek(0)
             self.target.seek(0)
 
-    def next(self):
+    def __next__(self):
         if self.end_of_data:
             self.end_of_data = False
             self.reset()
@@ -197,7 +197,7 @@ class BiTextIterator:
         assert len(self.source_buffer) == len(self.target_buffer), 'Buffer size mismatch!'
 
         if len(self.source_buffer) == 0:
-            for k_ in xrange(self.k):
+            for k_ in range(self.k):
                 ss = self.source.readline()
                 if ss == "":
                     break
@@ -265,6 +265,6 @@ class BiTextIterator:
 
         # all sentence pairs in maxibatch filtered out because of length
         if len(source) == 0 or len(target) == 0:
-            source, target = self.next()
+            source, target = next(self)
 
         return source, target

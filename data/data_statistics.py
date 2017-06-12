@@ -8,8 +8,8 @@ def main(argv):
         with open(input_file, 'r') as corpus:
             for line in corpus:
                 lengths.append(len(line.split()))
-            print("%s: size=%d, avg_length=%.2f, std=%.2f, min=%d, max=%d" 
-              % (input_file, len(lengths), np.mean(lengths), np.std(lengths), np.min(lengths), np.max(lengths)))
+            print(("%s: size=%d, avg_length=%.2f, std=%.2f, min=%d, max=%d" 
+              % (input_file, len(lengths), np.mean(lengths), np.std(lengths), np.min(lengths), np.max(lengths))))
 
 
 if __name__ == "__main__":

@@ -14,9 +14,9 @@
 # ==============================================================================
 """A decoder that performs beam search."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import collections
 
@@ -170,7 +170,7 @@ class BeamSearchDecoder(decoder.Decoder):
     self._cell = cell
     self._output_layer = output_layer
 
-    if callable(embedding):
+    if isinstance(embedding, collections.Callable):
       self._embedding_fn = embedding
     else:
       self._embedding_fn = (

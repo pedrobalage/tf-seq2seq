@@ -14,9 +14,9 @@
 # ==============================================================================
 """A powerful dynamic attention wrapper object."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import collections
 import math
@@ -161,7 +161,7 @@ class _BaseAttentionMechanism(AttentionMechanism):
           "memory_layer is not a Layer: %s" % type(memory_layer).__name__)
     self._query_layer = query_layer
     self._memory_layer = memory_layer
-    if not callable(probability_fn):
+    if not isinstance(probability_fn, collections.Callable):
       raise TypeError("probability_fn must be callable, saw type: %s" %
                       type(probability_fn).__name__)
     self._probability_fn = probability_fn
@@ -553,7 +553,7 @@ class AttentionWrapper(rnn_cell_impl.RNNCell):
       cell_input_fn = (
           lambda inputs, attention: array_ops.concat([inputs, attention], -1))
     else:
-      if not callable(cell_input_fn):
+      if not isinstance(cell_input_fn, collections.Callable):
         raise TypeError(
             "cell_input_fn must be callable, saw type: %s"
             % type(cell_input_fn).__name__)
